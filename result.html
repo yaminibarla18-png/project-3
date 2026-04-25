@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <div class="result-box">
+
+        <h2>Quiz Result</h2>
+        <p class="subtitle">Here is your performance</p>
+
+        <div class="score-section">
+            <h1>{{ score }} / {{ total }}</h1>
+            <p>
+                Percentage: 
+                {{ ((score / total) * 100) | round(2) }}%
+            </p>
+        </div>
+
+        <div class="remarks">
+            {% set percentage = (score / total) * 100 %}
+
+            {% if percentage >= 80 %}
+                <p class="good">Excellent! 🎉</p>
+            {% elif percentage >= 50 %}
+                <p class="average">Good Job 👍</p>
+            {% else %}
+                <p class="poor">Keep Practicing 😐</p>
+            {% endif %}
+        </div>
+
+        <div class="details">
+            <h3>Result Summary</h3>
+            <p>Total Questions: {{ total }}</p>
+            <p>Correct Answers: {{ score }}</p>
+            <p>Wrong Answers: {{ total - score }}</p>
+        </div>
+
+        <div class="actions">
+            <a href="/quiz" class="btn">Try Again</a>
+            <a href="/" class="btn logout">Logout</a>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
