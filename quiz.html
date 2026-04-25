@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <script>
+        // Simple Timer (5 minutes)
+        let timeLeft = 300;
+
+        function startTimer() {
+            let timer = setInterval(function () {
+                let minutes = Math.floor(timeLeft / 60);
+                let seconds = timeLeft % 60;
+
+                document.getElementById("timer").innerHTML =
+                    minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+
+                timeLeft--;
+
+                if (timeLeft < 0) {
+                    clearInterval(timer);
+                    alert("Time is up! Submitting quiz...");
+                    document.getElementById("quizForm").submit();
+                }
+            }, 1000);
+        }
+
+        window.onload = startTimer;
+    </script>
+</head>
+<body>
+
+<div class="container">
+    <div class="quiz-box">
+
+        <div class="quiz-header">
+            <h2>Online Quiz</h2>
+            <div class="timer">⏳ Time Left: <span id="timer">5:00</span></div>
+        </div>
+
+        <form method="POST" id="quizForm">
+
+            {% for q in questions %}
+            <div class="question-card">
+                <h3>Q{{ loop.index }}. {{ q.question }}</h3>
+
+                <label>
+                    <input type="radio" name="{{ q.id }}" value="{{ q.option1 }}">
+                    {{ q.option1 }}
+                </label><br>
+
+                <label>
+                    <input type="radio" name="{{ q.id }}" value="{{ q.option2 }}">
+                    {{ q.option2 }}
+                </label><br>
+
+                <label>
+                    <input type="radio" name="{{ q.id }}" value="{{ q.option3 }}">
+                    {{ q.option3 }}
+                </label><br>
+
+                <label>
+                    <input type="radio" name="{{ q.id }}" value="{{ q.option4 }}">
+                    {{ q.option4 }}
+                </label>
+            </div>
+            {% endfor %}
+
+            <div class="quiz-actions">
+                <button type="submit" class="btn">Submit Quiz</button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+</body>
+</html>
